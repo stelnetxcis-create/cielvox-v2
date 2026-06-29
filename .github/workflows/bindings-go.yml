@@ -1,0 +1,46 @@
+name: Bindings Tests (Go)
+on:
+  push:
+    paths:
+      - bindings/go/**
+      - stelnet.h
+      - src/CMakeLists.txt
+      - tools/cmake_graphviz_targets.py
+      - tools/sync_go_cgo_ldflags.py
+  pull_request:
+    paths:
+      - bindings/go/**
+      - stelnet.h
+      - src/CMakeLists.txt
+      - tools/cmake_graphviz_targets.py
+      - tools/sync_go_cgo_ldflags.py
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cgo-ldflags-drift:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - run: |
+          cmake -S . -B /tmp/go_drift_build \
+            --graphviz=/tmp/stelnet.dot \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DSTELNET_BUILD_TESTS=OFF \
+            -DSTELNET_BUILD_EXAMPLES=OFF \
+            -DSTELNET_BUILD_SERVER=OFF \
+            -DGGML_CUDA=OFF
+          python tools/sync_go_cgo_ldflags.py --check --dot /tmp/stelnet.dot
+
+  ubuntu-22:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '^1.23'
+      - uses: actions/checkout@v6
+      - run: |
+          cd bindings/go
+          make test

@@ -1,0 +1,14 @@
+{
+  "id": "chr1s4/stelnet-regression-transcript-capture",
+  "title": "stelnet-regression-transcript-capture",
+  "code_file": "capture.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": ["chr1s4/stelnet-hf-token", "chr1s4/stelnet-ccache"],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

@@ -1,0 +1,32 @@
+[package]
+name = "stelnet"
+version = "0.5.6"
+edition = "2021"
+description = "Safe Rust wrapper for Stelnet — lightweight on-device speech recognition (Whisper, Qwen3-ASR, FastConformer, and more)."
+license = "MIT"
+repository = "https://github.com/CrispStrobe/Stelnet"
+homepage = "https://github.com/CrispStrobe/Stelnet"
+documentation = "https://docs.rs/stelnet"
+readme = "README.md"
+keywords = ["asr", "speech-recognition", "whisper", "ggml", "speech-to-text"]
+categories = ["multimedia::audio", "api-bindings"]
+
+# A path dep + a version dep — the path is used during local development;
+# crates.io ignores the path and resolves from the registry, so this works
+# both for cargo workspaces and for downstream consumers.
+[dependencies]
+stelnet-sys = { path = "../stelnet-sys", version = "0.5.6" }
+
+[features]
+default = []
+cuda = ["stelnet-sys/cuda"]
+metal = ["stelnet-sys/metal"]
+vulkan = ["stelnet-sys/vulkan"]
+
+[dev-dependencies]
+hound = "3.5"
+
+[package.metadata.docs.rs]
+# docs.rs has no native libstelnet installed — disable build.rs link
+# probing by exposing a stub, or document that docs builds need the lib.
+all-features = true

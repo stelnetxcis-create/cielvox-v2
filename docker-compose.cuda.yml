@@ -1,0 +1,7 @@
+services:
+  stelnet:
+    image: ${STELNET_IMAGE_CUDA:-stelnet-local:main-cuda}
+    build:
+      context: .
+      dockerfile: .devops/main-cuda.Dockerfile
+    gpus: all

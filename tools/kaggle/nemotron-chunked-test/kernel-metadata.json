@@ -1,0 +1,13 @@
+{
+  "id": "chr1s4/stelnet-nemotron-chunked-test",
+  "title": "stelnet-nemotron-chunked-test",
+  "code_file": "nemotron_chunked_test.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": ["chr1s4/stelnet-hf-token"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

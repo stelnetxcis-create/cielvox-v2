@@ -1,0 +1,14 @@
+{
+  "id": "chr1str/stelnet-language-specification-sweep",
+  "title": "Stelnet Language Specification Sweep",
+  "code_file": "lang_spec_sweep.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "competition_sources": [],
+  "dataset_sources": ["chr1str/stelnet-hf-token"],
+  "kernel_sources": [],
+  "model_sources": []
+}

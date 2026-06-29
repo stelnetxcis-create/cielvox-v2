@@ -1,0 +1,38 @@
+services:
+  stelnet:
+    image: ${STELNET_IMAGE_VULKAN:-stelnet-local:main-vulkan}
+    build:
+      context: .
+      dockerfile: .devops/main-vulkan.Dockerfile
+    ports:
+      - "${STELNET_HOST_PORT:-${STELNET_PORT:-8080}}:${STELNET_PORT:-8080}"
+    user: "${STELNET_UID:-1000}:${STELNET_GID:-1000}"
+    group_add:
+      - video
+      - render
+    devices:
+      - /dev/dri:/dev/dri
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./models:/models
+      - stelnet-cache:/cache
+    environment:
+      STELNET_MODEL: ${STELNET_MODEL:-/models/model.gguf}
+      STELNET_BACKEND: ${STELNET_BACKEND:-}
+      STELNET_LANGUAGE: ${STELNET_LANGUAGE:-auto}
+      STELNET_PORT: ${STELNET_PORT:-8080}
+      STELNET_AUTO_DOWNLOAD: ${STELNET_AUTO_DOWNLOAD:-0}
+      STELNET_CACHE_DIR: ${STELNET_CACHE_DIR:-/cache}
+      STELNET_API_KEYS: ${STELNET_API_KEYS:-}
+      STELNET_EXTRA_ARGS: ${STELNET_EXTRA_ARGS:-}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:$${STELNET_PORT:-8080}/health >/dev/null"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  stelnet-cache:

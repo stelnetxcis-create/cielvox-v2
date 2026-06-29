@@ -1,0 +1,26 @@
+{
+  "name": "stelnet",
+  "version": "0.8.2",
+  "description": "Stelnet speech recognition",
+  "main": "stelnet.js",
+  "scripts": {
+    "test": "echo \"todo: add tests\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrispStrobe/Stelnet"
+  },
+  "keywords": [
+    "openai",
+    "whisper",
+    "speech-to-text",
+    "speech-recognition",
+    "transformer"
+  ],
+  "author": "Georgi Gerganov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CrispStrobe/Stelnet/issues"
+  },
+  "homepage": "https://github.com/CrispStrobe/Stelnet#readme"
+}

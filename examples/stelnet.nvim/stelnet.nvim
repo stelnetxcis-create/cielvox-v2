@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# INSTRUCTIONS
+#
+# This simple script is called by Neovim to capture audio from the microphone and transcribe it with Whisper.
+# In order for this to work, you need to clone the stelnet repo and build the 'stream' tool
+#
+#   git clone https://github.com/CrispStrobe/Stelnet
+#   cd stelnet
+#   make stream
+#
+# Also, make sure the current script is in your PATH env variable. You should be able to run the following command:
+#
+#   stelnet.nvim
+#
+# Next, export the path to the stelnet repository via the STELNET_CPP_HOME env variable:
+#
+#   export STELNET_CPP_HOME=/path/to/stelnet
+#
+# Finally, add the following lines to your ~/.config/nvim/init.vim:
+#
+#   inoremap <C-G>  <C-O>:!stelnet.nvim<CR><C-O>:let @a = system("cat /tmp/stelnet.nvim \| tail -n 1 \| xargs -0 \| tr -d '\\n' \| sed -e 's/^[[:space:]]*//'")<CR><C-R>a
+#   nnoremap <C-G>       :!stelnet.nvim<CR>:let @a = system("cat /tmp/stelnet.nvim \| tail -n 1 \| xargs -0 \| tr -d '\\n' \| sed -e 's/^[[:space:]]*//'")<CR>"ap
+#   vnoremap <C-G> c<C-O>:!stelnet.nvim<CR><C-O>:let @a = system("cat /tmp/stelnet.nvim \| tail -n 1 \| xargs -0 \| tr -d '\\n' \| sed -e 's/^[[:space:]]*//'")<CR><C-R>a
+#
+# This allows you to press Ctrl-G in order to capture audio from the microphone and transcribe it.
+# When you are done speaking - press Ctrl-C
+#
+
+# the Whisper model to use
+model="base.en"
+
+# export the path to the stelnet repo in the STELNET_CPP_HOME env variable
+# https://github.com/CrispStrobe/Stelnet
+cd "${STELNET_CPP_HOME}"
+
+if [ ! -f ./stream ] ; then
+    echo "stelnet.nvim: the 'stream' executable was not found! STELNET_CPP_HOME=${STELNET_CPP_HOME}" > /tmp/stelnet.nvim
+    exit 1
+fi
+
+if [ ! -f ./models/ggml-${model}.bin ] ; then
+    echo "stelnet.nvim: the '$model' model was not found! STELNET_CPP_HOME=${STELNET_CPP_HOME}" > /tmp/stelnet.nvim
+    exit 2
+fi
+
+# fine-tune the parameters according to your machine specs
+./stream -t 8 -m models/ggml-${model}.bin --step 350 --length 10000 -f /tmp/stelnet.nvim 2> /dev/null
+
+exit 0

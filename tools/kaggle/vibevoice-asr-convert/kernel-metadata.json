@@ -1,0 +1,14 @@
+{
+  "id": "chr1str/stelnet-vibevoice-asr-f16-one-off",
+  "title": "Stelnet — vibevoice-asr-f16 one-off",
+  "code_file": "stelnet-vibevoice-asr-f16-one-off.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
